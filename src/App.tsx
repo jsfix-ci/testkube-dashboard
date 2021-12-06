@@ -1,20 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Route, Switch, useHistory} from 'react-router-dom';
 
-import {Modal} from '@atoms';
-import {Main} from '@pages';
+import {Layout} from 'antd';
+import {Content} from 'antd/lib/layout/layout';
 
 import {config} from '@constants/config';
+
+import {Modal} from '@atoms';
+
+import {Main} from '@pages';
+
 import {
+  FinalizedApiEndpoint,
+  checkIfQueryParamsExistsInUrl,
+  getApiEndpointOnPageLoad,
   isHostProtocolSecure,
   showSmallError,
-  getApiEndpointOnPageLoad,
-  checkIfQueryParamsExistsInUrl,
-  FinalizedApiEndpoint,
 } from '@utils';
-import {Content} from 'antd/lib/layout/layout';
-import {Layout} from 'antd';
-import {SideBar} from './components/organisms';
+
+// import Colors from '@styles/Colors';
+
+// import {Sidebar} from './components/organisms';
 
 declare global {
   interface Window {
@@ -22,9 +28,21 @@ declare global {
   }
 }
 
-function App() {
-  const [visible, setVisible] = useState<boolean>(true);
+const RootLayoutStyles = {
+  height: '100vh',
+};
+
+const RootContentStyles = {
+  height: 'inherit',
+  // backgroundColor: Colors.blackPearl,
+  paddingLeft: 125,
+  paddingRight: 25,
+};
+
+const App = () => {
   const history = useHistory();
+
+  const [visible, setVisible] = useState<boolean>(false);
 
   const dashboardEndpointValidators = () => {
     if (!isHostProtocolSecure()) {
@@ -57,14 +75,14 @@ function App() {
 
   useEffect(() => {
     dashboardEndpointValidators();
-  });
+  }, []);
 
   return (
     <>
       {visible && <Modal visible isModalVisible={setVisible} />}
-      <Layout>
-        <SideBar />
-        <Layout style={{marginLeft: 100}}>
+      <Layout style={RootLayoutStyles}>
+        {/* <Sidebar /> */}
+        <Layout style={RootContentStyles}>
           <Content>
             <div className="site-layout-background">
               <Switch>
@@ -77,6 +95,6 @@ function App() {
       </Layout>
     </>
   );
-}
+};
 
 export default App;

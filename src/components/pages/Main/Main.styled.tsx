@@ -1,11 +1,11 @@
-import styled from 'styled-components';
 import {Layout} from 'antd';
+
+import styled from 'styled-components';
 
 export const StyledMainContent = styled(Layout.Content)`
   display: flex;
   flex-direction: column;
-  background: var(--color-dark-tertiary);
-  margin: 0 24px 0 0;
+  // background: var(--color-dark-tertiary);
 `;
 
 export const StyledTestHeader = styled.div``;

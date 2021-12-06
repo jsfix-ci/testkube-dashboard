@@ -1,11 +1,15 @@
 import React, {useState} from 'react';
-import styled from 'styled-components';
-import {Modal} from 'antd';
 import {useHistory} from 'react-router-dom';
 
-import {Button, LabelInput, Typography} from '@atoms';
-import {validateUrl, FinalizedApiEndpoint, showSmallError} from '@utils';
+import {Modal} from 'antd';
+
+import styled from 'styled-components';
+
 import {config} from '@constants/config';
+
+import {Button, LabelInput, Typography} from '@atoms';
+
+import {FinalizedApiEndpoint, showSmallError, validateUrl} from '@utils';
 
 const StyledSearchUrlForm = styled.form`
   display: flex;
@@ -69,15 +73,16 @@ const CustomModal = ({isModalVisible, visible}: IModal) => {
             pathname: '/',
             search: `?${new URLSearchParams({apiEndpoint: apiEndpoint.apiEndpoint}).toString()}`,
           });
-          setLabelButtonContent('Get Results');
           isModalVisible(false);
         }
       })
       .catch(err => {
         if (err) {
           showSmallError('Failed to fetch test results, please try again...', true, 'center');
-          setLabelButtonContent('Get Results');
         }
+      })
+      .finally(() => {
+        setLabelButtonContent('Get Results');
       });
   };
 
@@ -113,7 +118,7 @@ const CustomModal = ({isModalVisible, visible}: IModal) => {
             <LabelInput
               id="url"
               name="url"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputApiEndpoint(event, 'apiEndpoint')}
+              onChange={event => handleInputApiEndpoint(event, 'apiEndpoint')}
               defaultValue={apiEndpoint.apiEndpoint}
             />
             <Button type="submit" disabled={!validUrl} disableFilter variant="secondary">

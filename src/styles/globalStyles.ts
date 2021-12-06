@@ -1,6 +1,6 @@
 import {createGlobalStyle} from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
 
 html {
   font-size: 16px;
@@ -205,9 +205,9 @@ height: 38px;
   background: #141414;
 }
 
-.ant-layout {
-  background: var(--color-dark-tertiary);
-}
+// .ant-layout {
+//   background: var(--color-dark-tertiary);
+// }
 
 .ring-progress-style {
    display: flex;
@@ -299,6 +299,8 @@ thead[class*="ant-table-thead"] th:last-child{
 }
 
 `;
+
+export default GlobalStyle;
 
 /* Media Sizes */
 const size = {
