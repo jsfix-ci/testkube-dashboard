@@ -375,6 +375,15 @@ ul {
 // .ant-table-row:hover .table-actions-dropdown-container {
 //   display: block;
 // }
+
+  // <Notification />
+  .ant-notification-notice-close {
+    color: ${Colors.greyText};
+
+    &:hover {
+      color: ${Colors.purple};
+    }
+  }
 `;
 
 /* Media Sizes */

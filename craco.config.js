@@ -24,6 +24,7 @@ module.exports = {
           '@skeleton-to-color': '#434343',
           '@heading-color': '#fff',
           '@text-color': '#fff',
+          '@component-background': '#141414',
         },
       },
     },
