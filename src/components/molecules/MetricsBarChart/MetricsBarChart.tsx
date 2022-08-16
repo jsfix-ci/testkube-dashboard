@@ -49,8 +49,12 @@ const log2 = (value: any) => {
   return Math.log(value) / Math.log(100);
 };
 
+const divisionCoef = 1000;
+
 const greatestValue = (values: ExecutionMetrics[]) => {
-  return values.map(value => Math.log(value.duration_ms)).reduce((acc, cur) => (cur > acc ? cur : acc), -Infinity);
+  return values
+    .map(value => Math.log(value.duration_ms / divisionCoef))
+    .reduce((acc, cur) => (cur > acc ? cur : acc), -Infinity);
 };
 
 const Chart: React.FC<ChartProps> = props => {
@@ -62,8 +66,7 @@ const Chart: React.FC<ChartProps> = props => {
     division by 1000 converts values to seconds
     better would be to divide it by minValue - 1 to make sure that each record is displayed well
   */
-  const divisionCoef = 1000;
-  const maxValue = greatestValue(chartData) / divisionCoef;
+  const maxValue = greatestValue(chartData);
 
   const renderedBarChart = useMemo(() => {
     return chartData.map(barItem => {
@@ -84,15 +87,10 @@ const Chart: React.FC<ChartProps> = props => {
       const widthInPxMultiplyer = 75 * medianDurationProportion;
 
       const devidedDuration = duration_ms / divisionCoef;
-      let height;
-      if (status === 'running') {
-        // middle of chart
-        height = 75;
-      } else {
-        // proportion so devidedDuration is related to height the same as maxValue is related to widthInPxMultiplyer
-        // which is basically equals to maximum height of container (150 px)
-        height = (Math.log(devidedDuration) * widthInPxMultiplyer) / maxValue;
-      }
+
+      // proportion so devidedDuration is related to height the same as maxValue is related to widthInPxMultiplyer
+      // which is basically equals to maximum height of container (150 px)
+      const height = (Math.log(devidedDuration) * widthInPxMultiplyer) / maxValue;
 
       const barValue =
         barItem?.duration_ms > 60
@@ -114,7 +112,7 @@ const Chart: React.FC<ChartProps> = props => {
 };
 
 const MetricsBarChart: React.FC<MetricsBarChartProps> = props => {
-  const {data = [], medianDurationProportion = 2} = props;
+  const {data = [], medianDurationProportion} = props;
 
   const filteredData = data
     /* Some old, legacy tests does not have duration_ms field. We get rid of those here */
