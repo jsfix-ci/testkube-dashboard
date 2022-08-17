@@ -90,8 +90,10 @@ const Chart: React.FC<ChartProps> = props => {
 
       // proportion so devidedDuration is related to height the same as maxValue is related to widthInPxMultiplyer
       // which is basically equals to maximum height of container (150 px)
-      const height = (Math.log(devidedDuration) * widthInPxMultiplyer) / maxValue;
-
+      const maxLimit = 100;
+      // let height = (Math.log(devidedDuration) * widthInPxMultiplyer) / maxValue;
+      let height = (Math.log(devidedDuration) * maxLimit + 1) / Math.log(10) / maxValue;
+      height*=2;
       const barValue = devidedDuration > 60 ? `${(devidedDuration / 60).toFixed()}m` : `${devidedDuration.toFixed()}s`;
 
       return (
